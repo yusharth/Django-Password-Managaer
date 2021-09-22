@@ -1,0 +1,85 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Django Password Manager</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<script src="main.js" defer></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="brand"><a href=""><i class= "fa fa-lock" aria-hidden="true"></i>Password Manager</a></div>
+			<ul>
+				<li><a href="">Home</a></li>
+				<li><a href="javascript:;" onclick="displayModal('login-modal');">Log In</a></li>
+				<li><a href="javascript:;" onclick="displayModal('signup-modal');">Sign Up</a></li>
+				<li><a href="javascript:;" onclick="displayModal('password-modal');">Passwords</a></li>
+				<li><a href="javascript:;" onclick="displayModal('add-password-modal');">Add Passwords</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<footer>
+		<a href="">Link to the Project</a>
+	</footer>
+
+	<!--modals-->
+	<div class="modals-wrapper">
+		<span id="close-modal" title="close"><i class="fa fa-times" aria-hidden="true"></i></span>
+		<!--login modal-->
+		<div class="modal" id="login-modal">
+			<form action="">
+				<h2>Login</h2>
+				<input type="text" name="username" placeholder="Username">
+				<input type="Password" name="Password" placeholder="Password">
+				<input type="submit"value="login">
+			</form>
+		</div>
+		<!--signup modal-->
+		<div class="modal" id="signup-modal">
+			<form action="">
+				<h2>Sign-Up</h2>
+				<input type="text" name="username" placeholder="Username">
+				<input type="email" name="email" placeholder="youremailadress@gmail.com">
+				<input type="password" name="password" placeholder="Password">
+				<input type="password2" name="password2" placeholder="Confirm Password">
+				<input type="submit"value="Register">
+			</form>
+		</div>
+
+		<!--password modal-->
+		<div class="modal" id="password-modal">
+				<h2>URL or Name</h2>
+				<img width ="80" height="80" src="/intro-bg.jpeg">
+				<input type="email" name="email" placeholder="youremailadress@gmail.com"><i class ="fas fa-copy copy" title="copy to clipboard"></i>
+				<input type="text" name="username" placeholder="username"><i class ="fas fa-copy copy" title="copy to clipboard"></i>
+		</div>
+		<!--signup modal-->
+		<div class="modal" id="add-password-modal">
+			<form action="">
+				<h2>Add New Password</h2>
+				<input type="text" name="url" placeholder="URL of Website">
+				<input type="email" name="email" placeholder="youremailadress@gmail.com">
+				<input type="password" name="password" placeholder="Password">
+				<input type="submit"value="save">
+			</form>
+		</div>
+
+		<div class="container">
+			<div class="card">
+				<div class="ations">
+					<a href="" class="action-item">Delete</a>
+					<a href="" class="action-item">View</a>
+					<a href="" class="action-item">Update</a>
+				</div>
+				<img width="80" height="50" src="/intro-bg.jpeg">
+				<div class="name">Google Account</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
