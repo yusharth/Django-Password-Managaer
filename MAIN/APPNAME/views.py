@@ -1,4 +1,4 @@
-from base64 import encode
+from base64 import decode
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -9,6 +9,10 @@ import random
 from django.core.mail import send_mail
 from cryptography.fernet import Fernet
 from mechanize import Browser
+from .models import Password
+import favicon
+
+
 
 br = Browser()
 br.set_handle_robots(False)
@@ -73,7 +77,8 @@ def home(request):
                     "code":code,
                     "user":new_login,
                 })
-        elif "confirm" in request.POST.get("code"):
+
+        elif "confirm" in request.POST:
             input_code = request.POST.get("code")
             user = request.POST.get("user")
             if input_code != global_code:
@@ -81,10 +86,11 @@ def home(request):
                 messages.error(request,msg)
                 return HttpResponseRedirect(request.path)
             else:
-                login(request, user.objects.get(username=user))
+                login(request, User.objects.get(username=user))
                 msg= f"Welcome Again"
                 messages.success(request,msg)
                 return HttpResponseRedirect(request.path)
+
         elif "add-password" in request.POST:
             url = request.POST.get("url")
             email = request.POST.get("email")
@@ -100,10 +106,34 @@ def home(request):
 
             #get the logo's url
             icon = favicon.get(url)[0].url
-            #print data
-            print("\n\n\n")
-            print(encrypted_email)
-            print(encrypted_password)
-            print(title)
-            print(icon)
+            #Save Data
+            new_password = Password.objects.create(
+                user= request.user,
+                name=title,
+                logo =icon,
+                email = encrypted_email.decode(),
+                password = encrypted_password.decode(),
+            )
+            msg = f"{title} added successfully"
+            messages.success(request,msg)
+            return HttpResponseRedirect(request.path)
+
+        elif "delete" in request.POST:
+            to_delete = request.POST.get("password-id")
+            msg = f"{Password.objects.get(id=to_delete).name} deleted."
+            Password.objects.all.get(id=to_delete).delete() 
+            messages.success(request, msg)
+            return HttpResponseRedirect(request.path)
+
+    context= {}
+    if request.user.is_authenticated:
+        passwords = Password.objects.all().filter(user=request.user)
+        for password in passwords:
+            password.email = fernet.decrypt(password.email.encode()).decode()
+            password.password = fernet.decrypt(password.password.encode()).decode()
+        context={
+            "passwords":passwords,
+        }
+
+
     return render(request,"home.html")
